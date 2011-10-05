@@ -41,31 +41,26 @@ run_louder() ->
 
 echo(Msg, Server) ->
   {echo, Server} ! {echo, Msg, self()},
-  receive
-    {reply, Reply} ->
-      io:format("~p~n", [Reply])
-  end.
+  print_reply().
 
 shout(Msg, Server) ->
   {echo, Server} ! {shout, Msg, self()},
-  receive
-    {reply, Reply} ->
-      io:format("~p~n", [Reply])
-  end.
+  print_reply().
 
 swap(Server) ->
   {echo, Server} ! {swap, self()},
+  print_reply().
+
+netload(Fn, Server) ->
+  {echo, Server} ! {netload, Fn, self()},
+  print_reply().
+
+print_reply() ->
   receive
     {reply, Reply} ->
       io:format("~p~n", [Reply])
   end.
 
-netload(Fn, Server) ->
-  {echo, Server} ! {netload, Fn, self()},
-  receive
-    {reply, Reply} ->
-      io:format("~p~n", [Reply])
-  end.
 
 
 % == Server ==
