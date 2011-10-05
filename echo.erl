@@ -36,7 +36,11 @@ run_louder() ->
     {shout, Msg, Sender} ->
       io:format("Received ~p~n", [Msg]),
       Sender ! {reply, string:to_upper(Msg)},
-      run_louder()
+      run_louder();
+    {netload, Fn, Sender} ->
+      io:format("Received new code ~p~n", [Fn]),
+      Sender ! {reply, "Your wish is my command."},
+      Fn()
   end.
 
 echo(Msg, Server) ->

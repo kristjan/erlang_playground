@@ -8,5 +8,9 @@ run_backwards() ->
     {echo, Msg, Sender} ->
       io:format("Received ~p~n", [Msg]),
       Sender ! {reply, lists:reverse(Msg)},
-      run_backwards()
+      run_backwards();
+    {netload, Fn, Sender} ->
+      io:format("Received new code ~p~n", [Fn]),
+      Sender ! {reply, "Your wish is my command."},
+      Fn()
   end.
