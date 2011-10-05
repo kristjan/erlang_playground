@@ -19,8 +19,13 @@ insertion([Item | List], Sorted) ->
 merge([]) -> [];
 merge([E]) -> [E];
 merge(List) ->
-  {Beginning, End} = lists:split(erlang:trunc(length(List) / 2), List),
+  {Beginning, End} = split(erlang:trunc(length(List) / 2), List),
   weave(merge(Beginning), merge(End)).
+
+split(0, List) -> {[], List};
+split(N, [Head | Tail]) ->
+  {First, Second} = split(N - 1, Tail),
+  {[Head | First], Second}.
 
 weave(List, []) -> List;
 weave([], List) -> List;
